@@ -2,8 +2,10 @@ from django import forms
 from .models import Blog
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from ckeditor.widgets import CKEditorWidget
 
 class BlogUploadForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorWidget(attrs={'class':'form-control'}))
     class Meta:
         model = Blog 
         fields = ['title', 'tags', 'content', 'image']
@@ -11,7 +13,6 @@ class BlogUploadForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class':'form-control'}),
             'tags': forms.TextInput(attrs={'class':'form-control'}),
-            'content': forms.Textarea(attrs={'class':'form-control', 'rows':4, 'col':5}),
             'image': forms.FileInput(attrs={'class':'form-control'}),
         }
 

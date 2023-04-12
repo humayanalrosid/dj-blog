@@ -22,14 +22,17 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">{{ blog.title }}</h5>
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between mb-2">
                         <small>By {{ blog.user | capfirst }}</small>
                         <small>{{ blog.time | date:"F j, Y" }}</small>
                     </div>
                     <p class="card-text">
-                        {{ blog.content | truncatechars:100 }}
+                        {{ blog.content | truncatechars:108 | safe  }}
                     </p>
-                    <a href="{% url 'blog' slug=blog.slug %}" class="btn btn-primary btn-sm">Read</a>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{% url 'blog' slug=blog.slug %}" class="btn btn-primary btn-sm">Read</a>
+                        <small><strong>Tags:</strong> {{ blog.tags | truncatewords:3 }}</small>
+                    </div>
                 </div>
             </div>
         </div>

@@ -24,8 +24,12 @@
             <small>{{ blog.time | date:"F j, Y" }}</small>
         </div>
         <p class="card-text">
-            {{ blog.content | capfirst }}
+            {{ blog.content | safe | capfirst }}
         </p>
+
+        <small class="d-flex justify-content-end text-muted">
+            <strong>Tags: </strong>&nbsp; {{ blog.tags | capfirst }}
+        </small>
     </div>
 </div>
 {% endblock content %}

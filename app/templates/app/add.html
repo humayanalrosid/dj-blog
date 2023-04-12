@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="row">
-    <div class="col-md-5 mx-auto">
+    <div class="col-md-7 mx-auto">
         <div class="card">
             <div class="card-header text-center mb-3">
                 <h2 class="fw-bold">Add Your Blog</h2>
@@ -17,7 +17,8 @@
                     {% for data in form %}
                         <div class="mb-3">
                             {{ data.label_tag }}
-                            {{ data }}
+                            {{ form.media }}
+                            {{ datae }}
                             <small class="text-danger">{{ data.errors | striptags }}</small>
                         </div>
                     {% endfor %}
