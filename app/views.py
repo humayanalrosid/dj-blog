@@ -27,11 +27,40 @@ def add(request):
         messages.warning(request, 'You need to login.')
         return redirect('login')        
 
-
 def blog(request, slug):
     blog = get_object_or_404(Blog, slug=slug)
     return render(request, 'app/blog.html', {'blog': blog})
 
+def update(request, slug):
+    if request.user.is_authenticated:
+        blog = get_object_or_404(Blog, slug=slug)
+        
+        if request.method == "POST":
+            form = BlogUploadForm(request.POST, request.FILES, instance=blog)
+            
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.user = request.user
+                post.save()
+                messages.success(request, 'Blog updated successfully.')
+                return redirect('home')
+        else:
+            form = BlogUploadForm(instance=blog)
+        return render(request, 'app/update.html', {'form':form})
+    else:
+        messages.warning(request, 'You need to login.')
+        return redirect('login')
+
+
+def delete(request, slug):
+    if request.user.is_authenticated:
+        blog = get_object_or_404(Blog, slug=slug)
+        blog.delete()
+        messages.warning(request, 'Blog deleted succesfully.')
+        return redirect('home')
+    else:
+        messages.warning(request, 'You must login.')
+        return redirect('login')   
 
 # User Authentication
 def signup(request):

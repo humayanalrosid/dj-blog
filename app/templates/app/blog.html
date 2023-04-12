@@ -27,9 +27,17 @@
             {{ blog.content | safe | capfirst }}
         </p>
 
-        <small class="d-flex justify-content-end text-muted">
-            <strong>Tags: </strong>&nbsp; {{ blog.tags | capfirst }}
-        </small>
+        <div class="d-flex justify-content-between">
+            <div>
+                {% if request.user == blog.user %}
+                    <a href="{% url 'update' slug=blog.slug %}" class="btn btn-primary btn-sm">Update</a>
+                    <a href="{% url 'delete' slug=blog.slug %}" class="btn btn-danger btn-sm">Delete</a>
+                {% else %}
+                    <p></p>
+                {% endif %}
+            </div>
+            <small><strong>Tags: </strong>&nbsp; {{ blog.tags | capfirst }}</small>
+        </div>
     </div>
 </div>
 {% endblock content %}
