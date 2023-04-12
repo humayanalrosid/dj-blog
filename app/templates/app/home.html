@@ -1,0 +1,38 @@
+{% extends 'app/base.html' %}
+
+{% block page %}Home{% endblock page %}
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="row">
+    {% for blog in blogs %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+                <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                    <img src="{{ blog.image.url }}" class="card-img-top" style="width: 100%; height: 15vw; object-fit: cover;">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ blog.title }}</h5>
+                    <div class="d-flex justify-content-between">
+                        <small>By {{ blog.user | capfirst }}</small>
+                        <small>{{ blog.time | date:"F j, Y" }}</small>
+                    </div>
+                    <p class="card-text">
+                        {{ blog.content | truncatechars:100 }}
+                    </p>
+                    <a href="#" class="btn btn-primary btn-sm">Read</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock content %}
