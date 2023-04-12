@@ -29,7 +29,7 @@
                     <p class="card-text">
                         {{ blog.content | truncatechars:100 }}
                     </p>
-                    <a href="#" class="btn btn-primary btn-sm">Read</a>
+                    <a href="{% url 'blog' slug=blog.slug %}" class="btn btn-primary btn-sm">Read</a>
                 </div>
             </div>
         </div>

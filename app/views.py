@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import BlogUploadForm, SignUpForm, LoginForm
 from django.contrib import messages
 from .models import Blog
@@ -28,6 +28,12 @@ def add(request):
         return redirect('login')        
 
 
+def blog(request, slug):
+    blog = get_object_or_404(Blog, slug=slug)
+    return render(request, 'app/blog.html', {'blog': blog})
+
+
+# User Authentication
 def signup(request):
     if not request.user.is_authenticated:
         if request.method == "POST":
