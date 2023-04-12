@@ -3,6 +3,7 @@ from .forms import BlogUploadForm, SignUpForm, LoginForm
 from django.contrib import messages
 from .models import Blog
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 
 # Create your views here.
 def home(request):
@@ -51,7 +52,6 @@ def update(request, slug):
         messages.warning(request, 'You need to login.')
         return redirect('login')
 
-
 def delete(request, slug):
     if request.user.is_authenticated:
         blog = get_object_or_404(Blog, slug=slug)
@@ -61,6 +61,12 @@ def delete(request, slug):
     else:
         messages.warning(request, 'You must login.')
         return redirect('login')   
+
+
+def authors(request, username):
+    user = get_object_or_404(User, username=username)
+    blogs = Blog.objects.filter(user=user)
+    return render(request, 'app/authors.html', {'user':user,'blogs':blogs})
 
 # User Authentication
 def signup(request):
@@ -94,7 +100,7 @@ def user_login(request):
                 user = authenticate(username=uname, password=upass)
                 if user is not None:  
                     login(request, user)
-                    messages.success(request, 'Account created successfully.')
+                    messages.success(request, 'Logged in successfully.')
                     return redirect('home')
             else:
                 messages.warning(request, 'Something went wrong.')

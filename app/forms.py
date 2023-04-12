@@ -10,6 +10,10 @@ class BlogUploadForm(forms.ModelForm):
         model = Blog 
         fields = ['title', 'tags', 'content', 'image']
         
+        labels = {
+            'tags': 'Tag',
+        }
+        
         widgets = {
             'title': forms.TextInput(attrs={'class':'form-control'}),
             'tags': forms.TextInput(attrs={'class':'form-control'}),

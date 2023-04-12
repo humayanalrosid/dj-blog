@@ -20,7 +20,12 @@
         </div>
         <h1 class="fw-bold mb-2">{{ blog.title }}</h1>
         <div class="d-flex justify-content-between mb-3">
-            <small>By <strong>{{ blog.user | capfirst }}</strong></small>
+            <small>
+                By 
+                <a href="{% url 'author' blog.user %}" class="text-decoration-none text-black">
+                    {{ blog.user | capfirst }}
+                </a>
+            </small>
             <small>{{ blog.time | date:"F j, Y" }}</small>
         </div>
         <p class="card-text">
@@ -30,13 +35,13 @@
         <div class="d-flex justify-content-between">
             <div>
                 {% if request.user == blog.user %}
-                    <a href="{% url 'update' slug=blog.slug %}" class="btn btn-primary btn-sm">Update</a>
-                    <a href="{% url 'delete' slug=blog.slug %}" class="btn btn-danger btn-sm">Delete</a>
+                    <a href="{% url 'update' slug=blog.slug %}" class="btn btn-primary btn-sm"><i class="bi bi-pencil-fill"></i></a>
+                    <a href="{% url 'delete' slug=blog.slug %}" class="btn btn-danger btn-sm"><i class="bi bi-trash3"></i></a>
                 {% else %}
                     <p></p>
                 {% endif %}
             </div>
-            <small><strong>Tags: </strong>&nbsp; {{ blog.tags | capfirst }}</small>
+            <small><i class="bi bi-tag-fill"></i>&nbsp; {{ blog.tags | truncatewords:2 }}</small>
         </div>
     </div>
 </div>

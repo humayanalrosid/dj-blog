@@ -13,6 +13,11 @@ class Blog(models.Model):
     content = RichTextField()
     slug = AutoSlugField(populate_from='title', editable=True, always_update=True)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
+    
+    
+    class Meta:
+        ordering = ['-time']
+    
     def __str__(self):
         return self.title
 
