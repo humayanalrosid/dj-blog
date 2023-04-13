@@ -5,6 +5,8 @@ from .models import Blog
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+from django.db.models import Q
 
 # Create your views here.
 def home(request):
@@ -31,8 +33,13 @@ def add(request):
 
 def blog(request, slug):
     blog = get_object_or_404(Blog, slug=slug)
-    return render(request, 'app/blog.html', {'blog': blog})
+    latest_blogs = Blog.objects.all().order_by('-id')[:5]
+    return render(request, 'app/blog.html', {'blog': blog, 'latest_blogs': latest_blogs})
 
+def authorList(request):
+    authors = Blog.objects.values('user__username','user__first_name', 'user__last_name', 'user__date_joined').annotate(post_count=Count('user')).order_by('-post_count')
+    return render(request, 'app/authorList.html', {'authors':authors})
+    
 def update(request, slug):
     if request.user.is_authenticated:
         blog = get_object_or_404(Blog, slug=slug)

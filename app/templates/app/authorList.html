@@ -1,0 +1,34 @@
+{% extends 'app/base.html' %}
+
+{% block page %}Author Lists{% endblock page %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-7 mx-auto mb-5">
+
+      <div class="mb-3">
+        <h1 class="text-center">Author Lists</h1>
+      </div>
+
+      {% for author in authors %}
+        <ol class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center mb-3">
+            <div class="ms-2"> 
+              <div class="fw-bold"> {{ author.user__first_name }} {{ author.user__last_name }} </div> 
+              <small>{{ author.user__date_joined | date:"F j, Y" }}</small> 
+            </div>
+
+            <div>
+              <span class="badge bg-primary rounded-pill">{{ author.post_count }}</span>
+            </div>
+            
+            <div>
+              <a href="{% url 'author' author.user__username %}" class="btn btn-primary btn-sm">View</a>
+            </div>
+          </li>
+        </ol>
+      {% endfor %}
+    </div>
+</div>
+{% endblock content %}

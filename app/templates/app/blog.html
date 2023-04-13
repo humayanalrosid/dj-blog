@@ -14,7 +14,7 @@
 {% endif %}
 
 <div class="row">
-    <div class="col-md-8 mx-auto">
+    <div class="col-md-7 mx-auto mb-5">
         <div class="bg-image hover-overlay ripple mb-3" data-mdb-ripple-color="light">
             <img src="{{ blog.image.url }}" class="card-img-top" style="width: 100%; height: 20vw; object-fit: cover;">
         </div>
@@ -43,6 +43,26 @@
             </div>
             <small><i class="bi bi-tag-fill"></i>&nbsp; {{ blog.tags | truncatewords:2 }}</small>
         </div>
+    </div>
+
+    <div class="col-md-3 mx-auto">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+              <strong>Latest Posts</strong>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for blog in latest_blogs %}
+                    <li class="list-group-item">
+                        <a href="{% url 'blog' slug=blog.slug %}" class="text-decoration-none text-black fw-bold">
+                            {{ blog.title | capfirst | truncatewords:5 }}
+                        </a> <br>
+                        <small class="text-muted">
+                            {{ blog.time | date:"F j, Y" }}
+                        </small>
+                    </li>
+                {% endfor %}
+            </ul>
+          </div>
     </div>
 </div>
 {% endblock content %}

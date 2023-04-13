@@ -10,6 +10,7 @@ urlpatterns = [
     
     path('author/<str:username>', views.authors, name='author'),
     path('profile/<str:username>', views.updateProfile, name='update_profile'),
+    path('author-lists', views.authorList, name='author_lists'),
     
     path('signup', views.signup, name='signup'),
     path('login', views.user_login, name='login'),
