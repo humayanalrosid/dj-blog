@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import BlogUploadForm, SignUpForm, LoginForm
+from .forms import BlogUploadForm, SignUpForm, LoginForm, UpdateProfileForm
 from django.contrib import messages
 from .models import Blog
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
@@ -62,11 +63,23 @@ def delete(request, slug):
         messages.warning(request, 'You must login.')
         return redirect('login')   
 
-
 def authors(request, username):
     user = get_object_or_404(User, username=username)
     blogs = Blog.objects.filter(user=user)
     return render(request, 'app/authors.html', {'user':user,'blogs':blogs})
+
+@login_required
+def updateProfile(request, username):
+    if request.method == "POST":
+        form = UpdateProfileForm(request.POST, request.FILES, instance=request.user)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile updated successfully.')
+            return redirect('home')
+    else:
+        form = UpdateProfileForm(instance=request.user)
+    return render(request, 'app/updateProfile.html', {'form':form})
 
 # User Authentication
 def signup(request):

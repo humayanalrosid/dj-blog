@@ -2,14 +2,21 @@
 
 {% load static %}
 
-{% block page %}Author - {{ user | capfirst }}{% endblock page %}
+{% block page %}Author - {{ user.first_name | capfirst }}{% endblock page %}
 
 {% block content %}
 <div class="row">
 
     <div class="text-center mb-4">
         <img src="{% static 'img/profile.jpg' %}" class="rounded-circle mb-3" id="profile-photo" alt="Author profile photo" style="width: 150px; height: 150px;">
-        <h4 class="fw-bold">{{ user | capfirst }}</h4>
+        <h4 class="fw-bold">{{ user.first_name | capfirst }} </h4>
+        <small>
+            {% if request.user == user %}
+                <a href="{% url 'update_profile' user.username %}" class="text-decoration-none">
+                    Update 
+                </a>
+            {% endif %}
+        </small>
     </div>
 
     <div class="mb-3">
